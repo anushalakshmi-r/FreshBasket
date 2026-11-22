@@ -1,0 +1,30 @@
+export const INFO_PAGE_MAP = {
+  '/our-story': 'our-story',
+  '/about': 'our-story',
+  '/how-we-source': 'how-we-source',
+  '/careers': 'careers',
+  '/contact': 'contact',
+  '/contact-us': 'contact',
+  '/faqs': 'faqs',
+  '/faq': 'faqs',
+  '/delivery-info': 'delivery-info',
+  '/delivery-information': 'delivery-info',
+  '/privacy-policy': 'privacy-policy',
+  '/privacy': 'privacy-policy',
+  '/terms': 'terms',
+  '/terms-and-conditions': 'terms',
+  '/shopping-info': 'shopping-info',
+  '/shopping-information': 'shopping-info',
+}
+
+export const INFO_PAGES_LIST = [
+  { slug: 'our-story', label: 'Our story', href: '/our-story' },
+  { slug: 'how-we-source', label: 'How we source', href: '/how-we-source' },
+  { slug: 'careers', label: 'Careers', href: '/careers' },
+  { slug: 'contact', label: 'Contact us', href: '/contact' },
+  { slug: 'faqs', label: 'FAQs', href: '/faqs' },
+  { slug: 'delivery-info', label: 'Delivery information', href: '/delivery-info' },
+  { slug: 'privacy-policy', label: 'Privacy policy', href: '/privacy-policy' },
+  { slug: 'terms', label: 'Terms & conditions', href: '/terms' },
+  { slug: 'shopping-info', label: 'Shopping information', href: '/shopping-info' },
+]

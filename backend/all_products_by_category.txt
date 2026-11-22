@@ -1,0 +1,540 @@
+CATEGORY: vegetables
+  Spinach Greens
+  Red Onion
+  Local Potato
+  Cherry Tomato
+  English Cucumber
+  Purple Brinjal
+  Green Capsicum
+  Cauliflower
+  Fresh Green Peas
+  Carrot
+  Beetroot
+  Baby Corn
+  French Beans
+  Lady Finger
+  Drumstick
+  Bottle Gourd
+  Ridge Gourd
+  Bitter Gourd
+  Pumpkin
+  Sweet Potato
+  Broccoli
+  Zucchini
+  Coriander Leaves
+  Mint Leaves
+  Curry Leaves
+  Red Bell Pepper
+CATEGORY: fruits
+  Alphonso Mango
+  Kesar Mango
+  Robusta Banana
+  Yelakki Banana
+  Nagpur Orange
+  Sweet Lime
+  Green Grapes
+  Black Grapes
+  Shimla Apple
+  Fuji Apple
+  Bhagwa Pomegranate
+  Allahabad Guava
+  Papaya
+  Watermelon
+  Muskmelon
+  Pineapple
+  Kiwi Fruit
+  Dragon Fruit
+  Nashpati Pear
+  Chikoo
+  Tender Coconut
+  Strawberry
+  Blueberry
+  Jamun
+  Hass Avocado
+  Indian Lemon
+CATEGORY: dairy-eggs
+  Farm Cow Milk
+  Full Cream Milk
+  Toned Milk
+  Skimmed Milk
+  A2 Cow Milk
+  Lactose Free Milk
+  Fresh Curd
+  Probiotic Curd
+  Greek Yogurt
+  Mango Yogurt
+  Plain Buttermilk
+  Salted Buttermilk
+  Sweet Lassi
+  Fresh Paneer
+  Malai Paneer
+  Silken Tofu
+  Mozzarella Cheese
+  Cheddar Cheese Slices
+  Processed Cheese Cubes
+  Unsalted Butter
+  Salted Butter
+  Cow Ghee
+  Bilona Ghee
+  Fresh Cream
+  Whipping Cream
+  Farm Eggs
+CATEGORY: rice-pulses
+  Sona Masoori Rice
+  Indrayani Rice
+  Basmati Rice
+  Brown Basmati Rice
+  Ponni Boiled Rice
+  Matta Rice
+  Kolam Rice
+  Red Rice
+  Black Rice
+  Toor Dal
+  Moong Dal
+  Masoor Dal
+  Chana Dal
+  Urad Dal
+  Yellow Moong Whole
+  Green Moong Whole
+  Kabuli Chana
+  Kala Chana
+  Rajma Chitra
+  Black Eyed Peas
+  White Peas
+  Horse Gram
+  Foxtail Millet
+  Ragi Millet
+  Pearl Millet
+  Broken Wheat
+CATEGORY: meat-seafood
+  Chicken Curry Cut
+  Chicken Breast
+  Chicken Thigh
+  Boneless Chicken
+  Chicken Drumsticks
+  Chicken Wings
+  Chicken Mince
+  Chicken Sausages
+  Mutton Curry Cut
+  Boneless Mutton
+  Mutton Mince
+  Lamb Chops
+  Goat Liver
+  Goat Keema
+  Pork Curry Cut
+  Pork Sausages
+  Duck Curry Cut
+  Duck Breast
+  Chicken Seekh Kebab
+  Chicken Meatballs
+  Mutton Seekh Kebab
+  Chicken Tikka Pieces
+  Chicken Lollipop
+  Mutton Ribs
+  Turkey Breast
+  Whole Chicken
+CATEGORY: fish-prawns
+  River Rohu
+  Fresh Katla
+  Seer Fish Steaks
+  Black Pomfret
+  White Pomfret
+  Indian Mackerel
+  Sardines
+  Anchovies
+  Fresh Tilapia
+  Indian Salmon
+  Tuna Steaks
+  Rawas Fillet
+  Surmai Slices
+  Basa Fillet
+  Red Snapper
+  Freshwater Prawns
+  Tiger Prawns
+  Small Prawns
+  Peeled Prawns
+  Vannamei Prawns
+  Squid Rings
+  Crab Claws
+  Clam Meat
+  Lobster Tails
+  Fish Curry Cut
+  Fish Fillet
+CATEGORY: bakery
+  Classic Sourdough Loaf
+  Whole Wheat Bread
+  Multigrain Bread
+  Milk Bread
+  Baguette
+  Garlic Bread
+  Burger Buns
+  Pav Bread
+  Hot Dog Buns
+  Ragi Bread
+  Rusk Toast
+  Butter Croissant
+  Chocolate Croissant
+  Plain Muffins
+  Chocolate Muffins
+  Banana Walnut Cake
+  Tea Cake
+  Plum Cake
+  Brownie Squares
+  Nankhatai Biscuits
+  Oat Cookies
+  Jeera Cookies
+  Khari Puffs
+  Masala Puffs
+  Pizza Base
+  Whole Wheat Wraps
+CATEGORY: snacks
+  Roasted Almonds
+  Cashew Nuts
+  Salted Pistachios
+  Walnut Kernels
+  Roasted Peanuts
+  Masala Peanuts
+  Roasted Makhana
+  Jowar Puffs
+  Banana Chips
+  Jackfruit Chips
+  Masala Murukku
+  Ribbon Pakoda
+  Aloo Bhujia
+  Moong Dal Namkeen
+  Khatta Meetha Mix
+  Multigrain Trail Mix
+  Seed Mix
+  Roasted Chana
+  Baked Millet Chips
+  Potato Wafers
+  Tapioca Chips
+  Baked Khakhra
+  Masala Khakhra
+  Chikki Bites
+  Dry Fruit Ladoo
+  Date Energy Bites
+CATEGORY: beverages
+  Assam CTC Tea
+  Darjeeling Leaf Tea
+  Nilgiri Tea
+  Green Tea Bags
+  Masala Chai Mix
+  Filter Coffee Powder
+  Arabica Ground Coffee
+  Instant Coffee
+  Cold Brew Coffee
+  Orange Juice
+  Mango Juice
+  Guava Juice
+  Tender Coconut Water
+  Lemonade
+  Aam Panna
+  Jaljeera Drink
+  Kokum Sharbat
+  Rose Sharbat
+  Buttermilk Drink
+  Malted Health Drink
+  Cocoa Drink Mix
+  Ginger Herbal Tea
+  Tulsi Green Tea
+  Sparkling Water
+  Sugarcane Juice
+  Nannari Sarbath
+CATEGORY: cooking-oils
+  Cold Pressed Groundnut Oil
+  Wood Pressed Sesame Oil
+  Filtered Gingelly Oil
+  Sunflower Cooking Oil
+  Rice Bran Oil
+  Mustard Cooking Oil
+  Coconut Cooking Oil
+  Virgin Coconut Oil
+  Extra Virgin Olive Oil
+  Pure Olive Pomace Oil
+  Safflower Oil
+  Canola Cooking Oil
+  Avocado Oil
+  Flaxseed Oil
+  Almond Oil
+  Walnut Oil
+  Organic Groundnut Oil
+  Organic Sesame Oil
+  Cold Pressed Coconut Oil
+  Filtered Mustard Oil
+  Refined Soybean Oil
+  Corn Cooking Oil
+  Ghee for Cooking
+  Peanut Frying Oil
+  Sesame Dressing Oil
+  Blended Vegetable Oil
+CATEGORY: masala-spices
+  Garam Masala
+  Turmeric Powder
+  Kashmiri Chilli Powder
+  Byadgi Chilli Powder
+  Coriander Powder
+  Cumin Powder
+  Black Pepper Whole
+  Green Cardamom
+  Cloves Whole
+  Cinnamon Sticks
+  Mustard Seeds
+  Fennel Seeds
+  Fenugreek Seeds
+  Ajwain Seeds
+  Kalonji Seeds
+  Sambar Powder
+  Rasam Powder
+  Biryani Masala
+  Chole Masala
+  Pav Bhaji Masala
+  Kitchen King Masala
+  Tandoori Masala
+  Panch Phoron Mix
+  Dry Ginger Powder
+  Hing Powder
+  Roasted Cumin Seeds
+CATEGORY: personal-care
+  Citrus Hand Wash
+  Neem Bath Soap
+  Aloe Vera Bath Soap
+  Herbal Shampoo
+  Anti Dandruff Shampoo
+  Coconut Hair Oil
+  Amla Hair Oil
+  Daily Conditioner
+  Face Wash Gel
+  Gentle Body Wash
+  Moisturizing Lotion
+  Aloe Vera Gel
+  Sunscreen Lotion
+  Rose Water Toner
+  Herbal Toothpaste
+  Sensitive Toothpaste
+  Mint Mouthwash
+  Soft Toothbrush
+  Bamboo Toothbrush
+  Shaving Cream
+  Beard Grooming Oil
+  Hand Cream
+  Lip Balm
+  Sanitary Pads
+  Cotton Ear Buds
+  Natural Deodorant
+CATEGORY: household-essentials
+  Gentle Laundry Liquid
+  Front Load Detergent
+  Top Load Detergent Powder
+  Fabric Conditioner
+  Dishwash Liquid
+  Dishwash Bar
+  Kitchen Degreaser
+  Floor Cleaner
+  Bathroom Cleaner
+  Glass Cleaner
+  Multipurpose Surface Spray
+  Toilet Cleaner
+  Garbage Bags Small
+  Garbage Bags Large
+  Kitchen Paper Towels
+  Facial Tissues
+  Toilet Tissue Rolls
+  Microfiber Cleaning Cloth
+  Scrub Sponge Pack
+  Steel Scrubber Pack
+  Mosquito Repellent Refill
+  Room Freshener
+  Food Storage Wrap
+  Aluminium Foil Roll
+  Hand Sanitizer Refill
+  Laundry Stain Remover
+CATEGORY: baby-care
+  Soft Cotton Baby Wipes
+  Newborn Diapers Small
+  Baby Diapers Medium
+  Baby Diapers Large
+  Baby Diapers XL
+  Gentle Baby Shampoo
+  No Tears Baby Wash
+  Baby Massage Oil
+  Baby Moisturizing Lotion
+  Baby Rash Cream
+  Baby Powder
+  Cotton Baby Buds
+  Baby Laundry Liquid
+  Reusable Cloth Diapers
+  Baby Feeding Bottle
+  Silicone Feeding Spoon
+  Infant Rice Cereal
+  Ragi Baby Cereal
+  Apple Baby Puree
+  Banana Baby Puree
+  Baby Teething Rings
+  Baby Nail Care Set
+  Baby Bibs Pack
+  Baby Bath Towel
+  Baby Blanket
+  Baby Bottle Cleanser
+CATEGORY: frozen-foods
+  Garden Green Peas
+  Frozen Sweet Corn
+  Mixed Vegetables
+  Frozen Cut Beans
+  Frozen Spinach Cubes
+  Frozen Cauliflower
+  Frozen Broccoli Florets
+  Frozen Blueberries
+  Frozen Strawberries
+  Aloo Tikki
+  Veggie Burger Patty
+  Veg Spring Rolls
+  Paneer Nuggets
+  Chicken Nuggets
+  French Fries
+  Potato Wedges
+  Plain Paratha
+  Aloo Paratha
+  Methi Paratha
+  Malabar Parotta
+  Frozen Idli
+  Mini Samosas
+  Veg Momos
+  Chicken Momos
+  Frozen Pizza Base
+  Ready Mix Veg Curry
+CATEGORY: organic-foods
+  Organic Heirloom Tomatoes
+  Organic Spinach
+  Organic Carrots
+  Organic Cucumbers
+  Organic Bananas
+  Organic Apples
+  Organic Tur Dal
+  Organic Moong Dal
+  Organic Chana Dal
+  Organic Brown Rice
+  Organic Basmati Rice
+  Organic Ragi Flour
+  Organic Jaggery Powder
+  Organic Coconut Sugar
+  Organic Cold Pressed Oil
+  Organic Chia Seeds
+  Organic Flax Seeds
+  Organic Rolled Oats
+  Organic Poha
+  Organic Quinoa
+  Organic Peanut Butter
+  Organic Green Tea
+  Organic Red Lentils
+  Organic Chickpeas
+  Organic Whole Wheat Atta
+  Organic Raisins
+CATEGORY: pet-care
+  Chicken Dog Food
+  Lamb Dog Food
+  Puppy Starter Food
+  Adult Dog Food
+  Senior Dog Food
+  Salmon Cat Food
+  Tuna Cat Food
+  Kitten Starter Food
+  Adult Cat Food
+  Clumping Cat Litter
+  Neem Pet Shampoo
+  Chicken Training Treats
+  Crunchy Chicken Pet Treats
+  Dental Dog Chews
+  Catnip Toy Refill
+  Puppy Milk Replacer
+  Dog Wet Food
+  Cat Wet Food
+  Pet Feeding Bowl
+  Adjustable Dog Leash
+  Pet Grooming Brush
+  Tick Control Shampoo
+  Bird Seed Mix
+  Rabbit Hay Feed
+  Pet Waste Bags
+  Fish Flakes Food
+CATEGORY: home-kitchen
+  Hand Glazed Ceramic Mug
+  Stainless Steel Water Bottle
+  Glass Storage Jar
+  Airtight Cereal Container
+  Bamboo Chopping Board
+  Stainless Steel Tongs
+  Measuring Cup Set
+  Measuring Spoon Set
+  Silicone Spatula
+  Wooden Cooking Spoon
+  Nonstick Frying Pan
+  Stainless Steel Saucepan
+  Pressure Cooker 3 L
+  Pressure Cooker 5 L
+  Dinner Plate Set
+  Ceramic Serving Bowl
+  Glass Tumbler Set
+  Cotton Kitchen Towels
+  Reusable Food Covers
+  Lunch Box Set
+  Insulated Casserole
+  Tea Strainer
+  Vegetable Peeler
+  Box Grater
+  Kitchen Scissors
+  Reusable Shopping Bags
+CATEGORY: pooja-essentials
+  Sandalwood Incense Sticks
+  Jasmine Incense Sticks
+  Dhoop Cones
+  Camphor Tablets
+  Cotton Wicks
+  Brass Diya
+  Clay Diya Set
+  Pooja Oil Wick Lamp
+  Kumkum Powder
+  Turmeric Pooja Powder
+  Sandalwood Paste
+  Chandan Tilak Stick
+  Pooja Thali
+  Bell Metal Pooja Bell
+  Pooja Cotton Wicks
+  Rose Petal Potpourri
+  Temple Flower Garland
+  Panchamrut Mix
+  Pooja Matchbox Set
+  Ghee Diya Wicks
+  Havan Samagri
+  Loban Dhoop Cups
+  Brass Incense Holder
+  Pooja Kalash
+  Festival Pooja Kit
+  Natural Cow Dung Cakes
+CATEGORY: stationery
+  Recycled Paper Notebook
+  Ruled Notebook A5
+  Unruled Sketchbook
+  Hardbound Journal
+  Ballpoint Pen Blue
+  Ballpoint Pen Black
+  Gel Pen Set
+  Fountain Pen Ink
+  HB Pencil Pack
+  Colour Pencil Set
+  Wax Crayon Set
+  Watercolour Paint Set
+  Fine Tip Marker Set
+  Permanent Marker Black
+  Whiteboard Marker Set
+  Eraser and Sharpener Set
+  Metal Pencil Sharpener
+  Geometry Box
+  Steel Ruler 30 cm
+  Glue Stick Pack
+  Clear Tape Roll
+  Sticky Notes Set
+  Index Cards Pack
+  Document Folder
+  Desk Organizer Tray
+  Drawing Paper Pad
