@@ -5,7 +5,7 @@ The React/Vite storefront reads categories, brands, and products from the Django
 ## Run locally
 
 1. Make sure the Django API is running at `http://127.0.0.1:8000`.
-2. Set `VITE_API_BASE_URL` in `.env.local` (copy `.env.example` as a starting point if needed). The value is the backend origin, without `/api`.
+2. For a direct backend connection, set `VITE_API_URL` in `.env.local` to the backend API root, including `/api` (for example, `http://127.0.0.1:8000/api`). If unset, Vite proxies `/api` requests to the local backend.
 3. From this directory, install dependencies if needed and start Vite:
 
    ```powershell
@@ -17,9 +17,9 @@ Vite serves the app at `http://localhost:5173`. Restart Vite after changing an e
 
 The app uses:
 
-- `GET /api/catalog/categories/`
-- `GET /api/catalog/brands/`
-- `GET /api/catalog/products/` (20-item pages)
+- `GET /api/categories/`
+- `GET /api/brands/`
+- `GET /api/products/` (20-item pages)
 
 Product search and filters use the backend's `search`, `category`, `subcategory`, `brand`, `min_price`, `max_price`, `in_stock`, `featured`, `bestseller`, `ordering`, and `page` query parameters.
 
