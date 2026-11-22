@@ -1,31 +1,35 @@
-from dotenv import load_dotenv
-
-load_dotenv()
-
 import os
 from datetime import timedelta
 from pathlib import Path
 
-import pymysql
+import dj_database_url
+from dotenv import load_dotenv
 from django.core.exceptions import ImproperlyConfigured
-
-pymysql.install_as_MySQLdb()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 PROJECT_ROOT = BASE_DIR.parent
+load_dotenv(PROJECT_ROOT / ".env")
 load_dotenv(BASE_DIR / ".env")
-print("GEMINI KEY LOADED:", bool(os.getenv("GEMINI_API_KEY")))
 
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "").strip()
 if not SECRET_KEY:
     raise ImproperlyConfigured("Set DJANGO_SECRET_KEY in the project .env file.")
 
 DEBUG = os.getenv("DJANGO_DEBUG", "False").strip().lower() in {"true", "1", "yes"}
-ALLOWED_HOSTS = [
-    host.strip()
-    for host in os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
-    if host.strip()
-]
+def split_env_list(name, default=()):
+    value = os.getenv(name)
+    if value is None:
+        return list(default)
+    return [item.strip() for item in value.split(",") if item.strip()]
+
+
+render_hostname = os.getenv("RENDER_EXTERNAL_HOSTNAME", "").strip()
+ALLOWED_HOSTS = split_env_list(
+    "DJANGO_ALLOWED_HOSTS",
+    ("127.0.0.1", "localhost", render_hostname),
+)
+if render_hostname and render_hostname not in ALLOWED_HOSTS:
+    ALLOWED_HOSTS.append(render_hostname)
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -45,8 +49,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -76,16 +80,28 @@ TEMPLATES = [
 WSGI_APPLICATION = "config.wsgi.application"
 ASGI_APPLICATION = "config.asgi.application"
 
-# Local la MySQL, Render la SQLite - Auto maari vidum
-if os.getenv("DB_HOST"):
+# Render uses DATABASE_URL (Postgres); local MySQL and SQLite are also supported.
+database_url = os.getenv("DATABASE_URL", "").strip()
+if database_url:
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': os.getenv("DB_NAME"),
-            'USER': os.getenv("DB_USER"),
-            'PASSWORD': os.getenv("DB_PASSWORD"),
-            'HOST': os.getenv("DB_HOST"),
-            'PORT': os.getenv("DB_PORT"),
+        "default": dj_database_url.parse(
+            database_url,
+            conn_max_age=600,
+            ssl_require=not DEBUG,
+        )
+    }
+elif os.getenv("DB_HOST"):
+    import pymysql
+
+    pymysql.install_as_MySQLdb()
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": os.getenv("DB_NAME"),
+            "USER": os.getenv("DB_USER"),
+            "PASSWORD": os.getenv("DB_PASSWORD"),
+            "HOST": os.getenv("DB_HOST"),
+            "PORT": os.getenv("DB_PORT"),
         }
     }
 else:
@@ -119,18 +135,38 @@ TIME_ZONE = "Asia/Kolkata"
 USE_I18N = True
 USE_TZ = True
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STORAGES = {
+    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"
+    },
+}
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-CORS_ALLOWED_ORIGINS = ["http://localhost:5173", "http://127.0.0.1:5173", "https://frontend-delta-rouge-76.vercel.app" ]
+CORS_ALLOWED_ORIGINS = split_env_list(
+    "CORS_ALLOWED_ORIGINS",
+    (
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "https://frontend-delta-rouge-76.vercel.app",
+    ),
+)
 CORS_ALLOW_CREDENTIALS = True
-CSRF_TRUSTED_ORIGINS = ["http://localhost:5173", "http://127.0.0.1:5173"]
+CSRF_TRUSTED_ORIGINS = split_env_list(
+    "CSRF_TRUSTED_ORIGINS",
+    (
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "https://frontend-delta-rouge-76.vercel.app",
+    ),
+)
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 AUTH_REFRESH_COOKIE_NAME = "freshbasket_refresh"
 AUTH_REFRESH_COOKIE_PATH = "/api/accounts/"

@@ -1,4 +1,6 @@
-const ACCOUNTS_URL = '/api/accounts'
+import { apiUrl } from './apiBase'
+
+const ACCOUNTS_URL = '/accounts'
 let csrfToken = ''
 let refreshCookiePresent = false
 
@@ -69,7 +71,7 @@ export async function readAuthResponse(response) {
 
 async function fetchAccounts(path, options = {}) {
   try {
-    return await fetch(`${ACCOUNTS_URL}${path}`, {
+    return await fetch(apiUrl(`${ACCOUNTS_URL}${path}`), {
       ...options,
       credentials: 'include',
       headers: { Accept: 'application/json', ...options.headers },
@@ -138,7 +140,7 @@ export async function fetchWithAccessToken(path, accessToken, options = {}) {
   }
 
   try {
-    return await fetch(path, {
+    return await fetch(apiUrl(path), {
       ...options,
       method,
       headers,

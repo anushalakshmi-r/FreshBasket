@@ -18,6 +18,10 @@ def api_root(request):
             "status": "available",
             "endpoints": {
                 "health": "/api/health/",
+                "chat": "/api/chat/",
+                "categories": "/api/categories/",
+                "products": "/api/products/",
+                "brands": "/api/brands/",
                 "accounts": "/api/accounts/",
                 "catalog": "/api/catalog/",
                 "cart": "/api/cart/",

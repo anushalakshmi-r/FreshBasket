@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
+import { apiUrl } from '../services/apiBase'
 import './ChatBot.css'
 
-const CHAT_ENDPOINT = 'http://127.0.0.1:8000/api/chat/'
+const CHAT_ENDPOINT = apiUrl('/chat/')
 const WELCOME_MESSAGE = 'Vanakkam! welcome to FreshBasket ! How can i help you ?'
 
 export default function ChatBot() {

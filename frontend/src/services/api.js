@@ -1,10 +1,8 @@
 import { getStockInfo } from '../utils/stock'
 import { optimizeProductImageUrl } from '../utils/productImage'
+import { API_BASE_URL, apiUrl } from './apiBase'
 
-export const API_BASE_URL = (
-  import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000'
-).replace(/\/+$/, '')
-const CATALOG_URL = `${API_BASE_URL}/api/catalog`
+const CATALOG_URL = API_BASE_URL
 
 async function request(path, { signal } = {}) {
   let response
@@ -116,7 +114,7 @@ export async function getProducts(params = {}, { signal } = {}) {
 }
 
 export async function getHealth({ signal } = {}) {
-  const response = await fetch(`${API_BASE_URL}/api/health/`, {
+  const response = await fetch(apiUrl('/health/'), {
     headers: { Accept: 'application/json' },
     signal,
   })
