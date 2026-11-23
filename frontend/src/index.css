@@ -1471,6 +1471,7 @@ input:focus-visible {
 
 .panel-items {
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
 }
 
@@ -1560,8 +1561,10 @@ input:focus-visible {
 }
 
 .panel-summary {
+  flex: 0 0 auto;
   border-top: 1px solid var(--line);
   padding-top: 16px;
+  background: #fff;
 }
 
 .subtotal-row {
