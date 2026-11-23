@@ -111,16 +111,14 @@ export default function CartDrawer({
                 >
                   {isBusy ? 'Updating basket…' : 'Clear basket'}
                 </button>
-                {isAuthenticated && (
-                  <button
-                    className="button button-primary panel-continue"
-                    type="button"
-                    disabled={isBusy}
-                    onClick={onCheckout}
-                  >
-                    Proceed to checkout <ArrowRight size={17} />
-                  </button>
-                )}
+                <button
+                  className="button button-primary panel-continue"
+                  type="button"
+                  disabled={isBusy}
+                  onClick={isAuthenticated ? onCheckout : onSignIn}
+                >
+                  {isAuthenticated ? 'Proceed to checkout' : 'Sign in to checkout'} <ArrowRight size={17} />
+                </button>
                 <button className="button button-primary panel-continue" type="button" onClick={onClose}>
                   Continue shopping <ArrowRight size={17} />
                 </button>
