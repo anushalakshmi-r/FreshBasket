@@ -524,7 +524,8 @@ export default function App() {
   }
 
   return (
-    <div className="route-transition">
+    <>
+      <div className="route-transition">
       <FloatingAtmosphere />
       <AnnouncementBar />
       <Navbar
@@ -590,6 +591,7 @@ export default function App() {
         />
       )}
       <Footer onNavigate={navigate} />
+      </div>
       <CartDrawer
         open={activePanel === 'cart'}
         onClose={() => setActivePanel('')}
@@ -622,13 +624,13 @@ export default function App() {
         onAdd={handleAdd}
         onToggleWishlist={handleToggleWishlist}
       />
-      <ChatBot />
       {notice && <div className="toast-message" role="status">{notice}</div>}
       {showBackToTop && (
         <button className="back-to-top" type="button" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} aria-label="Back to top">
           ↑
         </button>
       )}
-    </div>
+      <ChatBot />
+    </>
   )
 }
