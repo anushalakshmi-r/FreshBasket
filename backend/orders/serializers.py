@@ -1,12 +1,13 @@
 from rest_framework import serializers
 
-from orders.models import Order, OrderItem
+from orders.models import Order, OrderItem, OrderStatusHistory
 
 
 class CheckoutRequestSerializer(serializers.Serializer):
     address_id = serializers.IntegerField(min_value=1)
     payment_method = serializers.ChoiceField(choices=Order.PaymentMethod.choices)
     customer_notes = serializers.CharField(required=False, allow_blank=True, max_length=2000)
+    coupon_code = serializers.CharField(required=False, allow_blank=True, max_length=40)
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
@@ -27,6 +28,7 @@ class OrderItemSerializer(serializers.ModelSerializer):
 
 class OrderSerializer(serializers.ModelSerializer):
     items = OrderItemSerializer(many=True, read_only=True)
+    status_history = serializers.SerializerMethodField()
 
     class Meta:
         model = Order
@@ -45,8 +47,13 @@ class OrderSerializer(serializers.ModelSerializer):
             "customer_notes",
             "created_at",
             "updated_at",
+            "coupon_code",
+            "status_history",
         ]
         read_only_fields = fields
+
+    def get_status_history(self, obj):
+        return [{"status": item.status, "note": item.note, "created_at": item.created_at} for item in obj.status_history.all()]
 
 
 class OrderStatusUpdateSerializer(serializers.Serializer):

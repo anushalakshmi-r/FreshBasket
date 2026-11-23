@@ -2,6 +2,8 @@ import re
 import uuid
 
 from django.contrib.auth import authenticate, get_user_model, password_validation
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_decode
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.db import IntegrityError, transaction
 from rest_framework import serializers
@@ -11,6 +13,37 @@ from accounts.models import CustomerAddress, CustomerProfile
 
 User = get_user_model()
 PHONE_PATTERN = re.compile(r"\+?[1-9]\d{6,14}\Z")
+
+
+class PasswordResetRequestSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+    def validate_email(self, value):
+        return value.strip().lower()
+
+
+class PasswordResetConfirmSerializer(serializers.Serializer):
+    uid = serializers.CharField()
+    token = serializers.CharField()
+    new_password = serializers.CharField(write_only=True, min_length=8, trim_whitespace=False)
+    confirm_password = serializers.CharField(write_only=True, trim_whitespace=False)
+
+    def validate(self, attrs):
+        if attrs["new_password"] != attrs["confirm_password"]:
+            raise serializers.ValidationError({"confirm_password": "Passwords do not match."})
+        try:
+            user_id = urlsafe_base64_decode(attrs["uid"]).decode()
+            user = User.objects.get(pk=user_id)
+        except (ValueError, TypeError, User.DoesNotExist):
+            raise serializers.ValidationError({"uid": "This password reset link is invalid or expired."})
+        if not default_token_generator.check_token(user, attrs["token"]):
+            raise serializers.ValidationError({"token": "This password reset link is invalid or expired."})
+        try:
+            password_validation.validate_password(attrs["new_password"], user)
+        except DjangoValidationError as exc:
+            raise serializers.ValidationError({"new_password": list(exc.messages)})
+        attrs["user"] = user
+        return attrs
 
 
 def normalize_phone_number(value):

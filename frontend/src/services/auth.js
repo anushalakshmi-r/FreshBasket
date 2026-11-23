@@ -128,6 +128,14 @@ export function logoutCustomer() {
   return postJson('/logout/', {})
 }
 
+export function requestPasswordReset(email) {
+  return postJson('/password-reset/', { email })
+}
+
+export function confirmPasswordReset(payload) {
+  return postJson('/password-reset/confirm/', payload)
+}
+
 export async function fetchWithAccessToken(path, accessToken, options = {}) {
   const method = (options.method ?? 'GET').toUpperCase()
   const headers = new Headers(options.headers ?? {})

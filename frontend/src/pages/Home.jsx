@@ -103,7 +103,7 @@ export default function Home({
       <div id="top" className="page-shell hero-shell">
         <HeroSection onShopNow={scrollToProducts} />
       </div>
-      <div className="trust-strip">
+      <div className="trust-strip" data-reveal>
         <div className="page-shell trust-strip-inner">
           <span><Leaf size={17} /> Picked fresh, packed thoughtfully</span>
           <span>Good food, no guesswork</span>
@@ -117,7 +117,7 @@ export default function Home({
         onRetry={onRetryCategories}
         onSelect={selectCategory}
       />
-      <section className="promo-section page-shell" aria-label="FreshBasket promotions">
+      <section className="promo-section page-shell" aria-label="FreshBasket promotions" data-reveal>
         <div className="promo-grid">
           {banners.map((banner) => (
             <PromoBanner key={banner.title} banner={banner} onAction={runPromo} />
@@ -170,7 +170,7 @@ export default function Home({
         error={shelvesError}
         onRetry={onRetryShelves}
       />
-      <section className="story-banner page-shell">
+      <section className="story-banner page-shell" data-reveal>
         <div className="story-mark"><Leaf size={21} /></div>
         <div>
           <span className="section-kicker">MORE THAN A GROCERY RUN</span>

@@ -1,5 +1,9 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.contrib.auth.tokens import default_token_generator
+from django.core.mail import send_mail
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
 from django.db import transaction
 from django.http import Http404
 from django.middleware.csrf import get_token
@@ -22,10 +26,45 @@ from accounts.serializers import (
     CustomerProfileSerializer,
     EmailLoginSerializer,
     RegistrationSerializer,
+    PasswordResetRequestSerializer,
+    PasswordResetConfirmSerializer,
 )
 
 REFRESH_COOKIE_NAME = settings.AUTH_REFRESH_COOKIE_NAME
 User = get_user_model()
+
+
+class PasswordResetRequestView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        serializer = PasswordResetRequestSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = User.objects.filter(email__iexact=serializer.validated_data["email"], is_active=True).first()
+        if user:
+            uid = urlsafe_base64_encode(force_bytes(user.pk))
+            token = default_token_generator.make_token(user)
+            frontend = settings.FRONTEND_URL if hasattr(settings, "FRONTEND_URL") else "http://localhost:5173"
+            send_mail(
+                "Reset your FreshBasket password",
+                f"Open {frontend}/reset-password/{uid}/{token} to choose a new password. This link expires soon.",
+                settings.DEFAULT_FROM_EMAIL,
+                [user.email],
+                fail_silently=True,
+            )
+        return Response({"detail": "If an account exists for that email, reset instructions have been sent."})
+
+
+class PasswordResetConfirmView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        serializer = PasswordResetConfirmSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data["user"]
+        user.set_password(serializer.validated_data["new_password"])
+        user.save(update_fields=["password"])
+        return Response({"detail": "Password reset successfully. You can now sign in."})
 
 
 def _lock_customer(user):
