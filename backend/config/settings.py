@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "cart.apps.CartConfig",
     "orders.apps.OrdersConfig",
     "payments.apps.PaymentsConfig",
+    "reviews.apps.ReviewsConfig",
 ]
 
 MIDDLEWARE = [
@@ -82,7 +83,9 @@ ASGI_APPLICATION = "config.asgi.application"
 
 # Render uses DATABASE_URL (Postgres); local MySQL and SQLite are also supported.
 database_url = os.getenv("DATABASE_URL", "").strip()
-if database_url:
+if os.getenv("USE_SQLITE_FOR_TESTS", "").strip().lower() in {"true", "1", "yes"}:
+    DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": BASE_DIR / "test.sqlite3"}}
+elif database_url:
     DATABASES = {
         "default": dj_database_url.parse(
             database_url,
@@ -114,6 +117,16 @@ else:
 RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID", "").strip()
 RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET", "").strip()
 RAZORPAY_WEBHOOK_SECRET = os.getenv("RAZORPAY_WEBHOOK_SECRET", "").strip()
+
+EMAIL_BACKEND = os.getenv("EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend")
+EMAIL_HOST = os.getenv("EMAIL_HOST", "")
+EMAIL_PORT = int(os.getenv("EMAIL_PORT", "587"))
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
+EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", "True").strip().lower() in {"true", "1", "yes"}
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "no-reply@freshbasket.local")
+PASSWORD_RESET_TIMEOUT = int(os.getenv("PASSWORD_RESET_TIMEOUT", "3600"))
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173").strip().rstrip("/")
 
 AUTH_PASSWORD_VALIDATORS = [
     {

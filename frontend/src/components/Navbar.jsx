@@ -8,7 +8,7 @@ import {
   UserRound,
   X,
 } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export default function Navbar({
   cartCount,
@@ -32,6 +32,23 @@ const areas = ["Anna Nagar", "T. Nagar", "Velachery", "OMR", "Tambaram", "Porur"
 const filteredAreas = areas.filter(a => a.toLowerCase().includes(locationSearch.toLowerCase()));
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [accountMenuOpen, setAccountMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const previousCartCount = useRef(cartCount)
+
+  useEffect(() => {
+    const updateScrolled = () => setScrolled(window.scrollY > 16)
+    updateScrolled()
+    window.addEventListener('scroll', updateScrolled, { passive: true })
+    return () => window.removeEventListener('scroll', updateScrolled)
+  }, [])
+
+  useEffect(() => {
+    if (cartCount > previousCartCount.current) {
+      document.querySelector('.cart-button')?.classList.remove('cart-bump')
+      requestAnimationFrame(() => document.querySelector('.cart-button')?.classList.add('cart-bump'))
+    }
+    previousCartCount.current = cartCount
+  }, [cartCount])
 
   function submitSearch(event) {
     event.preventDefault()
@@ -47,7 +64,7 @@ const filteredAreas = areas.filter(a => a.toLowerCase().includes(locationSearch.
   }
 
   return (
-    <header className="site-header">
+    <header className={`site-header${scrolled ? ' is-scrolled' : ''}`}>
       <div className="navbar page-shell">
         <a
           className="brand-lockup"

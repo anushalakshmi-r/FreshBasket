@@ -1,4 +1,9 @@
 from django.contrib import admin
+from orders.models import Coupon, CouponUsage, OrderStatusHistory
+
+admin.site.register(Coupon)
+admin.site.register(CouponUsage)
+admin.site.register(OrderStatusHistory)
 
 from orders.models import Order, OrderItem
 

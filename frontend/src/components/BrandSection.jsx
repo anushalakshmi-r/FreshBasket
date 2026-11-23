@@ -6,7 +6,7 @@ export default function BrandSection({
   onSelectBrand,
 }) {
   return (
-    <section className="brand-section page-shell" aria-labelledby="brand-title">
+    <section className="brand-section page-shell" aria-labelledby="brand-title" data-reveal>
       <div className="brand-intro">
         <span className="section-kicker">GOOD PEOPLE, GOOD PRODUCE</span>
         <h2 id="brand-title">Brands you know.<br />Values we believe in.</h2>

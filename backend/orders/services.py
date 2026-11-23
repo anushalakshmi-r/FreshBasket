@@ -7,7 +7,7 @@ from rest_framework.exceptions import NotFound, ValidationError
 from accounts.models import CustomerAddress
 from cart.models import Cart, CartItem
 from catalog.models import Inventory, Product
-from orders.models import Order, OrderItem
+from orders.models import Coupon, CouponUsage, Order, OrderItem, OrderStatusHistory
 from orders.pricing import calculate_delivery_fee
 
 
@@ -32,7 +32,7 @@ def _primary_image(product):
     return image.image_url if image else ""
 
 
-def checkout_quote(customer):
+def checkout_quote(customer, coupon_code=""):
     cart, _ = Cart.objects.get_or_create(customer=customer)
     items = list(
         CartItem.objects.filter(cart=cart)
@@ -45,6 +45,10 @@ def checkout_quote(customer):
         Decimal("0.00"),
     )
     delivery_fee = calculate_delivery_fee(subtotal)
+    discount = Decimal("0.00")
+    coupon = _valid_coupon(coupon_code, customer, subtotal) if coupon_code else None
+    if coupon:
+        discount = coupon.calculate_discount(subtotal)
     return {
         "items": [
             {
@@ -60,14 +64,29 @@ def checkout_quote(customer):
         ],
         "subtotal": subtotal,
         "delivery_fee": delivery_fee,
-        "discount": Decimal("0.00"),
-        "grand_total": subtotal + delivery_fee,
+        "discount": discount,
+        "grand_total": subtotal + delivery_fee - discount,
+        "coupon_code": coupon.code if coupon else "",
         "free_delivery_threshold": Decimal("499.00"),
     }
 
 
+def _valid_coupon(code, customer, subtotal):
+    coupon = Coupon.objects.filter(code=code.strip().upper(), is_enabled=True).first()
+    now = timezone.now()
+    if not coupon or not (coupon.starts_at <= now <= coupon.expires_at):
+        raise ValidationError({"coupon_code": "This coupon is invalid or expired."})
+    if subtotal < coupon.minimum_order_value:
+        raise ValidationError({"coupon_code": f"Minimum order value is {coupon.minimum_order_value}."})
+    if coupon.usage_limit is not None and coupon.usages.count() >= coupon.usage_limit:
+        raise ValidationError({"coupon_code": "This coupon has reached its usage limit."})
+    if coupon.usages.filter(customer=customer).count() >= coupon.per_customer_limit:
+        raise ValidationError({"coupon_code": "You have already used this coupon."})
+    return coupon
+
+
 @transaction.atomic
-def create_order(*, customer, address_id, payment_method, customer_notes=""):
+def create_order(*, customer, address_id, payment_method, customer_notes="", coupon_code=""):
     cart, _ = Cart.objects.get_or_create(customer=customer)
     cart = Cart.objects.select_for_update().get(pk=cart.pk)
     cart_items = list(
@@ -126,7 +145,8 @@ def create_order(*, customer, address_id, payment_method, customer_notes=""):
         validated_lines.append((cart_item, product, inventory, line_total))
 
     delivery_fee = calculate_delivery_fee(subtotal)
-    discount = Decimal("0.00")
+    coupon = _valid_coupon(coupon_code, customer, subtotal) if coupon_code else None
+    discount = coupon.calculate_discount(subtotal) if coupon else Decimal("0.00")
     order = Order.objects.create(
         customer=customer,
         delivery_address_snapshot=_address_snapshot(address),
@@ -138,7 +158,11 @@ def create_order(*, customer, address_id, payment_method, customer_notes=""):
         payment_status=Order.PaymentStatus.PENDING,
         order_status=Order.OrderStatus.PENDING,
         customer_notes=customer_notes,
+        coupon_code=coupon.code if coupon else "",
     )
+    OrderStatusHistory.objects.create(order=order, status=order.order_status, note="Order placed", changed_by=customer)
+    if coupon:
+        CouponUsage.objects.create(coupon=coupon, customer=customer, order=order)
 
     for cart_item, product, inventory, line_total in validated_lines:
         OrderItem.objects.create(
@@ -209,12 +233,15 @@ def cancel_order(*, customer, order_number):
 
     order.order_status = Order.OrderStatus.CANCELLED
     order.save(update_fields=["order_status", "updated_at"])
+    OrderStatusHistory.objects.create(order=order, status=order.order_status, note="Order cancelled", changed_by=customer)
     return order
 
 
 ADMIN_STATUS_TRANSITIONS = {
     Order.OrderStatus.PENDING: {Order.OrderStatus.CONFIRMED},
     Order.OrderStatus.CONFIRMED: {Order.OrderStatus.PROCESSING},
-    Order.OrderStatus.PROCESSING: {Order.OrderStatus.SHIPPED},
-    Order.OrderStatus.SHIPPED: {Order.OrderStatus.DELIVERED},
+    Order.OrderStatus.PROCESSING: {Order.OrderStatus.PACKED},
+    Order.OrderStatus.PACKED: {Order.OrderStatus.SHIPPED},
+    Order.OrderStatus.SHIPPED: {Order.OrderStatus.OUT_FOR_DELIVERY},
+    Order.OrderStatus.OUT_FOR_DELIVERY: {Order.OrderStatus.DELIVERED},
 }

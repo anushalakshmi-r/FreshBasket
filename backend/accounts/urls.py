@@ -10,6 +10,8 @@ from accounts.views import (
     LogoutView,
     RegisterView,
     TokenRefreshCookieView,
+    PasswordResetRequestView,
+    PasswordResetConfirmView,
 )
 
 urlpatterns = [
@@ -30,4 +32,6 @@ urlpatterns = [
         name="address-set-default",
     ),
     path("logout/", LogoutView.as_view(), name="logout"),
+    path("password-reset/", PasswordResetRequestView.as_view(), name="password-reset-request"),
+    path("password-reset/confirm/", PasswordResetConfirmView.as_view(), name="password-reset-confirm"),
 ]

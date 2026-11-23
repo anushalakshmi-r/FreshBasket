@@ -5,6 +5,7 @@ export default function CategoryCard({ category, onSelect }) {
   return (
     <button
       className="category-card"
+      data-reveal
       type="button"
       onClick={() => onSelect(category)}
       aria-label={`Browse ${category.name}`}

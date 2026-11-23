@@ -33,6 +33,7 @@ class CheckoutView(APIView):
             address_id=serializer.validated_data["address_id"],
             payment_method=serializer.validated_data["payment_method"],
             customer_notes=serializer.validated_data.get("customer_notes", ""),
+            coupon_code=serializer.validated_data.get("coupon_code", ""),
         )
         return Response(
             OrderSerializer(order).data,
@@ -98,5 +99,7 @@ class OrderStatusUpdateView(APIView):
                 )
             order.order_status = next_status
             order.save(update_fields=["order_status", "updated_at"])
+            from orders.models import OrderStatusHistory
+            OrderStatusHistory.objects.create(order=order, status=next_status, changed_by=request.user)
 
         return Response(OrderSerializer(order).data)

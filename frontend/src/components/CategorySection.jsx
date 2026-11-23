@@ -9,7 +9,7 @@ export default function CategorySection({
   onSelect,
 }) {
   return (
-    <section className="section-block categories-section page-shell" id="categories">
+    <section className="section-block categories-section page-shell" id="categories" data-reveal>
       <div className="section-heading">
         <div>
           <span className="section-kicker">A GOOD PLACE TO START</span>

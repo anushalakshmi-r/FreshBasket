@@ -13,7 +13,7 @@ export default function Newsletter() {
   }
 
   return (
-    <section className="newsletter-section page-shell" id="newsletter">
+    <section className="newsletter-section page-shell" id="newsletter" data-reveal>
       <div className="newsletter-icon"><Mail size={21} aria-hidden="true" /></div>
       <div className="newsletter-copy">
         <span className="section-kicker">A FRESH NOTE, NOW AND THEN</span>

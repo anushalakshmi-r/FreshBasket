@@ -26,6 +26,8 @@ class Order(models.Model):
         CONFIRMED = "confirmed", "Confirmed"
         PROCESSING = "processing", "Processing"
         SHIPPED = "shipped", "Shipped"
+        PACKED = "packed", "Packed"
+        OUT_FOR_DELIVERY = "out_for_delivery", "Out for delivery"
         DELIVERED = "delivered", "Delivered"
         CANCELLED = "cancelled", "Cancelled"
 
@@ -69,11 +71,12 @@ class Order(models.Model):
         default=PaymentStatus.PENDING,
     )
     order_status = models.CharField(
-        max_length=12,
+        max_length=20,
         choices=OrderStatus.choices,
         default=OrderStatus.PENDING,
     )
     customer_notes = models.TextField(blank=True)
+    coupon_code = models.CharField(max_length=40, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -141,3 +144,41 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.quantity} x {self.product_name_snapshot}"
+
+
+class OrderStatusHistory(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="status_history")
+    status = models.CharField(max_length=20, choices=Order.OrderStatus.choices)
+    note = models.CharField(max_length=255, blank=True)
+    changed_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["created_at", "id"]
+
+
+class Coupon(models.Model):
+    code = models.CharField(max_length=40, unique=True)
+    discount_percentage = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
+    discount_fixed = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    minimum_order_value = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    maximum_discount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    starts_at = models.DateTimeField()
+    expires_at = models.DateTimeField()
+    usage_limit = models.PositiveIntegerField(null=True, blank=True)
+    per_customer_limit = models.PositiveIntegerField(default=1)
+    is_enabled = models.BooleanField(default=True)
+
+    def calculate_discount(self, subtotal):
+        from decimal import Decimal
+        amount = subtotal * self.discount_percentage / Decimal("100") if self.discount_percentage is not None else (self.discount_fixed or Decimal("0"))
+        if self.maximum_discount is not None:
+            amount = min(amount, self.maximum_discount)
+        return min(amount, subtotal).quantize(Decimal("0.01"))
+
+
+class CouponUsage(models.Model):
+    coupon = models.ForeignKey(Coupon, on_delete=models.PROTECT, related_name="usages")
+    customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, related_name="coupon_usages")
+    order = models.OneToOneField(Order, on_delete=models.PROTECT, related_name="coupon_usage")
+    created_at = models.DateTimeField(auto_now_add=True)

@@ -5,11 +5,12 @@ import ChatBot from './components/ChatBot'
 import Footer from './components/Footer'
 import Navbar from './components/Navbar'
 import WishlistDrawer from './components/WishlistDrawer'
+import FloatingAtmosphere from './components/FloatingAtmosphere'
 import { useAuth } from './context/useAuth'
 import { getBrands, getCategories, getProducts } from './services/api'
 import { useCart } from './hooks/useCart'
 import { useWishlist } from './hooks/useWishlist'
-import { AccountPage, LoginPage, RegisterPage } from './pages/AuthPages'
+import { AccountPage, ForgotPasswordPage, LoginPage, RegisterPage, ResetPasswordPage } from './pages/AuthPages'
 import {
   CheckoutPage,
   OrderConfirmationPage,
@@ -48,7 +49,7 @@ function mergeProductDirectory(current, incoming) {
 }
 
 function withChatBot(page) {
-  return <>{page}<ChatBot /></>
+  return <div className="route-transition">{page}<ChatBot /></div>
 }
 
 export default function App() {
@@ -107,6 +108,7 @@ export default function App() {
   const [metaRetry, setMetaRetry] = useState(0)
   const [activePanel, setActivePanel] = useState('')
   const [notice, setNotice] = useState('')
+  const [showBackToTop, setShowBackToTop] = useState(false)
   const requestVersion = useRef(0)
   const loadMoreController = useRef(null)
   const isStorefront = !(
@@ -122,6 +124,32 @@ export default function App() {
 
     window.addEventListener('popstate', syncPathname)
     return () => window.removeEventListener('popstate', syncPathname)
+  }, [])
+
+  useEffect(() => {
+    const targets = document.querySelectorAll('[data-reveal]')
+    if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      targets.forEach((target) => target.classList.add('is-revealed'))
+      return undefined
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return
+        entry.target.classList.add('is-revealed')
+        observer.unobserve(entry.target)
+      })
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 })
+
+    targets.forEach((target) => observer.observe(target))
+    return () => observer.disconnect()
+  }, [pathname])
+
+  useEffect(() => {
+    const onScroll = () => setShowBackToTop(window.scrollY > 620)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   const navigate = useCallback((path) => {
@@ -452,6 +480,12 @@ export default function App() {
     return withChatBot(<RegisterPage onNavigate={navigate} onSuccess={handleAuthSuccess} />)
   }
 
+  if (pathname === '/forgot-password') return withChatBot(<ForgotPasswordPage onNavigate={navigate} />)
+  if (pathname.startsWith('/reset-password/')) {
+    const parts = pathname.split('/')
+    return withChatBot(<ResetPasswordPage uid={decodeURIComponent(parts[2] || '')} token={decodeURIComponent(parts[3] || '')} onNavigate={navigate} />)
+  }
+
   if (pathname === '/account') {
     return withChatBot(
       <>
@@ -490,7 +524,8 @@ export default function App() {
   }
 
   return (
-    <>
+    <div className="route-transition">
+      <FloatingAtmosphere />
       <AnnouncementBar />
       <Navbar
         cartCount={itemCount}
@@ -589,6 +624,11 @@ export default function App() {
       />
       <ChatBot />
       {notice && <div className="toast-message" role="status">{notice}</div>}
-    </>
+      {showBackToTop && (
+        <button className="back-to-top" type="button" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} aria-label="Back to top">
+          ↑
+        </button>
+      )}
+    </div>
   )
 }

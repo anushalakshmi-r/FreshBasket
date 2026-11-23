@@ -11,7 +11,7 @@ import {
 } from 'lucide-react'
 import Footer from '../components/Footer'
 import { useAuth } from '../context/useAuth'
-import { readAuthResponse } from '../services/auth'
+import { confirmPasswordReset, readAuthResponse, requestPasswordReset } from '../services/auth'
 
 function AuthShell({ children, onNavigate, eyebrow, title, description }) {
   return (
@@ -171,10 +171,37 @@ export function LoginPage({ onNavigate, onSuccess }) {
         New to FreshBasket? <a href="/register" onClick={(event) => {
           event.preventDefault()
           onNavigate('/register')
-        }}>Create an account</a>
+        }}>Create an account</a> · <a href="/forgot-password" onClick={(event) => { event.preventDefault(); onNavigate('/forgot-password') }}>Forgot password?</a>
       </p>
     </AuthShell>
   )
+}
+
+export function ForgotPasswordPage({ onNavigate }) {
+  const [email, setEmail] = useState('')
+  const [message, setMessage] = useState('')
+  const [error, setError] = useState('')
+  const [busy, setBusy] = useState(false)
+  async function submit(event) {
+    event.preventDefault(); setBusy(true); setError(''); setMessage('')
+    try { setMessage((await requestPasswordReset(email)).detail) } catch (requestError) { setError(requestError.message) } finally { setBusy(false) }
+  }
+  return <AuthShell onNavigate={onNavigate} eyebrow="Account recovery" title="Reset your password" description="We’ll send a secure, time-limited reset link if an account exists for that email.">
+    <form className="auth-form" onSubmit={submit}>{error && <div className="auth-alert" role="alert">{error}</div>}{message && <div className="auth-notice" role="status">{message}</div>}
+      <label className="auth-field" htmlFor="reset-email"><span>Email address</span><input id="reset-email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} required /></label>
+      <AuthSubmit busy={busy}>Send reset link</AuthSubmit>
+    </form>
+  </AuthShell>
+}
+
+export function ResetPasswordPage({ onNavigate, uid, token }) {
+  const [password, setPassword] = useState(''); const [confirm, setConfirm] = useState(''); const [message, setMessage] = useState(''); const [error, setError] = useState(''); const [busy, setBusy] = useState(false)
+  async function submit(event) { event.preventDefault(); setBusy(true); setError(''); try { setMessage((await confirmPasswordReset({ uid, token, new_password: password, confirm_password: confirm })).detail) } catch (requestError) { setError(requestError.message) } finally { setBusy(false) } }
+  return <AuthShell onNavigate={onNavigate} eyebrow="Account recovery" title="Choose a new password" description="Use at least eight characters and keep your account secure.">
+    <form className="auth-form" onSubmit={submit}>{error && <div className="auth-alert" role="alert">{error}</div>}{message && <div className="auth-notice" role="status">{message} <button type="button" className="orders-link-button" onClick={() => onNavigate('/login')}>Sign in</button></div>}
+      <PasswordInput id="password" label="New password" value={password} onChange={(event) => setPassword(event.target.value)} autoComplete="new-password" /><PasswordInput id="confirm_password" label="Confirm password" value={confirm} onChange={(event) => setConfirm(event.target.value)} autoComplete="new-password" /><AuthSubmit busy={busy}>Update password</AuthSubmit>
+    </form>
+  </AuthShell>
 }
 
 export function RegisterPage({ onNavigate, onSuccess }) {

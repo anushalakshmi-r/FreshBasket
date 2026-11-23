@@ -29,6 +29,8 @@ urlpatterns = [
     path("api/wishlist/", include("cart.wishlist_urls")),
     path("api/orders/", include("orders.urls")),
     path("api/payments/", include("payments.urls")),
+    path("api/reviews/", include("reviews.urls")),
+    path("api/admin/", include("config.admin_urls")),
     path("api/", api_root, name="api-root"),
     path("api/health/", health_check, name="health-check"),
 ]

@@ -156,7 +156,7 @@ export default function ProductSection({
   emptyMessage = 'Try another search or explore all of our fresh picks.',
 }) {
   return (
-    <section className={`section-block product-section${isDeals ? ' deals-section' : ''}`} id={id}>
+    <section className={`section-block product-section${isDeals ? ' deals-section' : ''}`} id={id} data-reveal>
       <div className="page-shell">
         <div className="section-heading">
           <div>

@@ -27,7 +27,7 @@ export default function ProductCard({
   const stockInfo = getStockInfo(product)
 
   return (
-    <article className="product-card" data-sku={product.sku}>
+    <article className="product-card" data-sku={product.sku} data-reveal>
       <div className="product-image-wrap">
         <ImageWithFallback
           className="product-image"
